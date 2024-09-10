@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>3D Snowman</title>
+    <title>Three.js-Blender Template</title>
     <meta charset="utf-8" />
     <meta
       name="viewport"
       content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
-    <meta name="theme-color" content="#eeeeee"/>
-    <meta name="description" content="A 3D model of snowman in a snowy countryside" />
-    <meta property="og:image" content="https://raw.githubusercontent.com/joerhoney/3d-snowman/main/snowman-screenshot.jpg" />
-    <meta property="og:keywords" content="3D model, snowman, snowy countryside, winter" />
+    <meta name="theme-color" content="#111111" />
+    <meta name="description" content="Description for scene." />
+    <meta
+      property="og:image"
+      content="https://raw.githubusercontent.com/joerhoney/threejs-blender/main/geometry-screenshot.jpg"
+    />
+    <meta property="og:keywords" content="3D model, 3D animation" />
     <meta property="og:type" content="website" />
-    <link href="https://fonts.googleapis.com/css?family=Rubik:400,700&amp;display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css?family=Rubik:400,700&amp;display=swap"
+      rel="stylesheet"
+    />
     <style>
       :root {
         --color3: #ff653a;
@@ -36,9 +42,35 @@
       import { GLTFLoader } from "./GLTFLoader.js";
       import { RGBELoader } from "./RGBELoader.js";
 
-      let camera, scene, renderer;
+      let camera,
+        scene,
+        renderer,
+        dt,
+        lastframe = Date.now(),
+        mixer,
+        cubeAction;
+
+      // Create an AnimationMixer, and get the list of AnimationClip instances
+      // const mixer = new THREE.AnimationMixer( mesh );
+      // const clips = mesh.animations;
+
+      // Update the mixer on each frame
+      // function update () {
+      // 	mixer.update( deltaSeconds );
+      // }
+
+      // // Play a specific animation
+      // const clip = THREE.AnimationClip.findByName( clips, 'dance' );
+      // const action = mixer.clipAction( clip );
+      // action.play();
+
+      // Play all animations
+      // clips.forEach( function ( clip ) {
+      // 	mixer.clipAction( clip ).play();
+      // } );
 
       init();
+      update();
       render();
 
       function init() {
@@ -49,14 +81,23 @@
           45,
           window.innerWidth / window.innerHeight,
           0.25,
-          20
+          200
         );
-        camera.position.set(0, 0, 80);
+        camera.position.set(20, 10, 120);
 
         scene = new THREE.Scene();
 
+        // let ambilight = new THREE.AmbientLight( 0xcccffc, 3.4 );
+        // ambilight.name = "ambilight"
+        // scene.add( ambilight );
+
+        // let dirlight = new THREE.DirectionalLight( 0xffcffc, 5.4 );
+        // dirlight.name = "dirlight"
+        // dirlight.position.set(0,0,0)
+        // scene.add( dirlight );
+
         new RGBELoader().load(
-          "pexels-8moments-748837-360.hdr",
+          "pexels-pachon-in-motion-1-360.hdr",
           function (texture) {
             texture.mapping = THREE.EquirectangularReflectionMapping;
 
@@ -68,15 +109,30 @@
             // model
 
             const loader = new GLTFLoader();
-            loader.load("VBUS101-Snowman.gltf", function (gltf) {
-              scene.add(gltf.scene);
+            loader.load("Moving-Geometry-2.gltf", function (gltf) {
+              mixer = new THREE.AnimationMixer(gltf.scene);
+              cubeAction = mixer.clipAction(gltf.animations[0]);
 
-              render();
+              console.log("loader:");
+              console.log(loader);
+              console.log(JSON.stringify(loader));
+              console.log("gltf.animations[1]:");
+              console.log(gltf.animations[1]);
+              console.log("mixer:");
+              console.log(mixer);
+              console.log("cubeAction:");
+              console.log(cubeAction);
+              console.log("scene:");
+              console.log(scene);
+
+              scene.add(gltf.scene);
+              cubeAction.play();
             });
           }
         );
 
         renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.physicallyCorrectLights = true;
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -87,8 +143,8 @@
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.addEventListener("change", render); // use if there is no animation loop
         controls.minDistance = 4;
-        controls.maxDistance = 12;
-        controls.target.set(0, 0, -0.2);
+        controls.maxDistance = 64;
+        controls.target.set(0, 0, 0);
         controls.update();
 
         window.addEventListener("resize", onWindowResize);
@@ -103,7 +159,17 @@
         render();
       }
 
-      //
+      function update() {
+        dt = (Date.now() - lastframe) / 1000;
+
+        if (mixer) {
+          mixer.update(dt);
+        }
+
+        renderer.render(scene, camera);
+        lastframe = Date.now();
+        requestAnimationFrame(update);
+      }
 
       function render() {
         renderer.render(scene, camera);
@@ -125,7 +191,7 @@
         position: relative;
         text-decoration: none;
         text-transform: lowercase;
-        transition: all .3s ease;
+        transition: all 0.3s ease;
         transform: rotate(14.125deg);
         transform-origin: top left;
       }
@@ -136,7 +202,7 @@
       .nav a.logo {
         font-size: 90px;
         left: 27px;
-        letter-spacing: .3rem;
+        letter-spacing: 0.3rem;
         position: absolute;
         top: -17px;
         z-index: 1;
@@ -153,7 +219,7 @@
         top: 12px;
         right: 12px;
         text-decoration: none;
-        transition: all .3s ease;
+        transition: all 0.3s ease;
       }
       .icon:hover {
         color: var(--color3);
@@ -166,13 +232,33 @@
       }
       .icon b {
         display: block;
-        font-size: .8em;
+        font-size: 0.8em;
         font-weight: 400;
-        transition: all .75s ease, scale .2s;
+        transition: all 0.75s ease, scale 0.2s;
       }
     </style>
-    <a class="icon" href="https://github.com/joerhoney/threejs-blender/" rel="noreferrer" target="_blank" title="Repository">
-      <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><title></title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg>
+    <a
+      class="icon"
+      href="https://github.com/joerhoney/threejs-blender/"
+      rel="noreferrer"
+      target="_blank"
+      title="Repository"
+    >
+      <svg
+        stroke="currentColor"
+        fill="currentColor"
+        stroke-width="0"
+        role="img"
+        viewBox="0 0 24 24"
+        height="1em"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <title></title>
+        <path
+          d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+        ></path>
+      </svg>
     </a>
   </body>
 </html>
