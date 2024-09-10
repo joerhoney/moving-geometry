@@ -1,5 +1,5 @@
 **3D Animation Class: Assignment 1**
-# [Snowman](https://joerhoney.github.io/threejs-blender/)
+# [Moving Geometry](https://joerhoney.github.io/moving-geometry/)
 
 ![Screenshot of snowman](https://github.com/joerhoney/threejs-blender/blob/main/geometry-screenshot.jpg)
 
