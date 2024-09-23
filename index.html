@@ -32,7 +32,7 @@
         }
       }
       body {
-        background: #144;
+        background: #441;
         margin: 0px;
       }
     </style>
@@ -103,7 +103,8 @@
       scene = new THREE.Scene();
 
       new RGBELoader().load(
-        "assets/pexels-8moments-748837-360.hdr",
+        "assets/pexels-pachon-in-motion-3-360.hdr",
+        // "assets/pexels-8moments-748837-360.hdr",
         function (texture) {
           texture.mapping = THREE.EquirectangularReflectionMapping;
 
@@ -115,30 +116,30 @@
           // model
 
           const loader = new GLTFLoader();
-          loader.load("assets/Moving-Geometry-2.gltf", function (gltf) {
+          // loader.load("assets/Moving-Geometry-2.gltf", function (gltf) {
+          loader.load("assets/VBUS101-Snowman.gltf", function (gltf) {
             mixer = new THREE.AnimationMixer(gltf.scene);
-            cubeAction = mixer.clipAction(gltf.animations[0]);
+            // cubeAction = mixer.clipAction(gltf.animations[0]);
 
             console.log("loader:");
             console.log(loader);
             console.log(JSON.stringify(loader));
-            console.log("gltf.animations[1]:");
-            console.log(gltf.animations[1]);
+            // console.log("gltf.animations[1]:");
+            // console.log(gltf.animations[1]);
             console.log("mixer:");
             console.log(mixer);
-            console.log("cubeAction:");
-            console.log(cubeAction);
+            // console.log("cubeAction:");
+            // console.log(cubeAction);
             console.log("scene:");
             console.log(scene);
 
             scene.add(gltf.scene);
-            cubeAction.play();
+            // cubeAction.play();
           });
         }
       );
 
       renderer = new THREE.WebGLRenderer({ antialias: true });
-      // renderer.physicallyCorrectLights = true;
       renderer.setPixelRatio(window.devicePixelRatio);
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
