@@ -32,7 +32,7 @@
         }
       }
       body {
-        background: #711;
+        background: #441;
         margin: 0px;
       }
     </style>
@@ -102,15 +102,6 @@
 
       scene = new THREE.Scene();
 
-      // let ambilight = new THREE.AmbientLight( 0xcccffc, 3.4 );
-      // ambilight.name = "ambilight"
-      // scene.add( ambilight );
-
-      // let dirlight = new THREE.DirectionalLight( 0xffcffc, 5.4 );
-      // dirlight.name = "dirlight"
-      // dirlight.position.set(0,0,0)
-      // scene.add( dirlight );
-
       new RGBELoader().load(
         "assets/pexels-pachon-in-motion-3-360.hdr",
         function (texture) {
@@ -147,7 +138,7 @@
       );
 
       renderer = new THREE.WebGLRenderer({ antialias: true });
-      renderer.physicallyCorrectLights = true;
+      // renderer.physicallyCorrectLights = true;
       renderer.setPixelRatio(window.devicePixelRatio);
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
