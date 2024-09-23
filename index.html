@@ -32,7 +32,7 @@
         }
       }
       body {
-        background: #441;
+        background: #414;
         margin: 0px;
       }
     </style>
@@ -116,22 +116,22 @@
           // model
 
           const loader = new GLTFLoader();
-          // loader.load("assets/Moving-Geometry-2.gltf", function (gltf) {
-          loader.load("assets/VBUS101-Snowman.gltf", function (gltf) {
+          loader.load("assets/Moving-Geometry-2.gltf", function (gltf) {
+          // loader.load("assets/VBUS101-Snowman.gltf", function (gltf) {
             mixer = new THREE.AnimationMixer(gltf.scene);
             // cubeAction = mixer.clipAction(gltf.animations[0]);
 
-            console.log("loader:");
-            console.log(loader);
-            console.log(JSON.stringify(loader));
+            // console.log("loader:");
+            // console.log(loader);
+            // console.log(JSON.stringify(loader));
             // console.log("gltf.animations[1]:");
             // console.log(gltf.animations[1]);
-            console.log("mixer:");
-            console.log(mixer);
+            // console.log("mixer:");
+            // console.log(mixer);
             // console.log("cubeAction:");
             // console.log(cubeAction);
-            console.log("scene:");
-            console.log(scene);
+            // console.log("scene:");
+            // console.log(scene);
 
             scene.add(gltf.scene);
             // cubeAction.play();
