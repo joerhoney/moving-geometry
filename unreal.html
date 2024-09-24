@@ -53,10 +53,6 @@
 
     <script type="module">
       import * as THREE from "three";
-
-      // import Stats from "three/addons/libs/stats.module.js";
-      // import { GUI } from "three/addons/libs/lil-gui.module.min.js";
-
       import { OrbitControls } from "three/addons/controls/OrbitControls.js";
       import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
       import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
@@ -70,9 +66,9 @@
 
       const params = {
         threshold: 0,
-        strength: 0.03,
-        radius: 0,
-        exposure: 2,
+        strength: 0.02,
+        radius: 0.5,
+        exposure: 1,
       };
 
       init();
@@ -112,10 +108,10 @@
         camera.position.set(20, 10, 120);
         scene.add(camera);
 
-        scene.add(new THREE.AmbientLight(0xcccccc));
+        // scene.add(new THREE.AmbientLight(0xcccccc));
 
-        const pointLight = new THREE.PointLight(0xffffff, 100);
-        camera.add(pointLight);
+        // const pointLight = new THREE.PointLight(0xffffff, 100);
+        // camera.add(pointLight);
 
         const loader = new GLTFLoader();
         const gltf = await loader.loadAsync("assets/Moving-Geometry-2.gltf");
@@ -168,40 +164,7 @@
         // controls.maxPolarAngle = Math.PI * 0.5;
         controls.minDistance = 4;
         controls.maxDistance = 64;
-        // controls.target.set(20, 10, 120);
-
-        //
-
-        // const gui = new GUI();
-
-        // const bloomFolder = gui.addFolder("bloom");
-
-        // bloomFolder
-        //   .add(params, "threshold", 0.0, 1.0)
-        //   .onChange(function (value) {
-        //     bloomPass.threshold = Number(value);
-        //   });
-
-        // bloomFolder
-        //   .add(params, "strength", 0.0, 3.0)
-        //   .onChange(function (value) {
-        //     bloomPass.strength = Number(value);
-        //   });
-
-        // gui
-        //   .add(params, "radius", 0.0, 1.0)
-        //   .step(0.01)
-        //   .onChange(function (value) {
-        //     bloomPass.radius = Number(value);
-        //   });
-
-        // const toneMappingFolder = gui.addFolder("tone mapping");
-
-        // toneMappingFolder
-        //   .add(params, "exposure", 0.1, 2)
-        //   .onChange(function (value) {
-        //     renderer.toneMappingExposure = Math.pow(value, 4.0);
-        //   });
+        controls.target.set(0, 0, 0);
 
         window.addEventListener("resize", onWindowResize);
       }
@@ -221,8 +184,6 @@
         const delta = clock.getDelta();
 
         mixer.update(delta);
-
-        // stats.update();
 
         composer.render();
       }
@@ -310,7 +271,6 @@
         width="1em"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <title></title>
         <path
           d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
         ></path>
