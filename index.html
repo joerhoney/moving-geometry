@@ -41,21 +41,12 @@
   <body>
     <div id="container"></div>
 
-    <script type="importmap">
-      {
-        "imports": {
-          "three": "./js/2021/three.module.js",
-          "three/": "./js/2021/"
-        }
-      }
-    </script>
-
     <script type="module">
-    import * as THREE from "three";
+    import * as THREE from "./js/2021/three.module.js";
 
-    import { OrbitControls } from "three/OrbitControls.js";
-    import { GLTFLoader } from "three/GLTFLoader.js";
-    import { RGBELoader } from "three/RGBELoader.js";
+    import { OrbitControls } from "./js/2021/OrbitControls.js";
+    import { GLTFLoader } from "./js/2021/GLTFLoader.js";
+    import { RGBELoader } from "./js/2021/RGBELoader.js";
 
     let camera,
       scene,
