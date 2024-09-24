@@ -32,7 +32,7 @@
         }
       }
       body {
-        background: #414;
+        background: #441;
         margin: 0px;
       }
     </style>
@@ -117,29 +117,29 @@
 
           const loader = new GLTFLoader();
           loader.load("assets/Moving-Geometry-2.gltf", function (gltf) {
-          // loader.load("assets/VBUS101-Snowman.gltf", function (gltf) {
             mixer = new THREE.AnimationMixer(gltf.scene);
-            // cubeAction = mixer.clipAction(gltf.animations[0]);
+            cubeAction = mixer.clipAction(gltf.animations[0]);
 
-            // console.log("loader:");
-            // console.log(loader);
-            // console.log(JSON.stringify(loader));
-            // console.log("gltf.animations[1]:");
-            // console.log(gltf.animations[1]);
-            // console.log("mixer:");
-            // console.log(mixer);
-            // console.log("cubeAction:");
-            // console.log(cubeAction);
-            // console.log("scene:");
-            // console.log(scene);
+            console.log("loader:");
+            console.log(loader);
+            console.log(JSON.stringify(loader));
+            console.log("gltf.animations[1]:");
+            console.log(gltf.animations[1]);
+            console.log("mixer:");
+            console.log(mixer);
+            console.log("cubeAction:");
+            console.log(cubeAction);
+            console.log("scene:");
+            console.log(scene);
 
             scene.add(gltf.scene);
-            // cubeAction.play();
+            cubeAction.play();
           });
         }
       );
 
       renderer = new THREE.WebGLRenderer({ antialias: true });
+      // renderer.physicallyCorrectLights = true;
       renderer.setPixelRatio(window.devicePixelRatio);
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
