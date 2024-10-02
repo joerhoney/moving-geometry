@@ -71,7 +71,7 @@
         clock = new THREE.Clock();
         const scene = new THREE.Scene();
         new RGBELoader().load(
-          "assets/vaporwave-sky-360-3.hdr",
+          "assets/vaporwave-sky-360.hdr",
           function (texture) {
             texture.mapping = THREE.EquirectangularReflectionMapping;
             scene.background = texture;
@@ -87,12 +87,14 @@
           45,
           window.innerWidth / window.innerHeight,
           0.25,
-          300
+          3000
         );
-        camera.position.set(20, 10, 120);
+        camera.position.set(20, 10, 80);
         scene.add(camera);
         const loader = new GLTFLoader();
-        const gltf = await loader.loadAsync("assets/Moving-Geometry-4.glb");
+        const gltf = await loader.loadAsync(
+          "assets/background-geometry-world.glb"
+        );
         const model = gltf.scene;
         scene.add(model);
         mixer = new THREE.AnimationMixer(model);
@@ -103,7 +105,7 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setAnimationLoop(animate);
         renderer.toneMapping = THREE.ReinhardToneMapping;
-        renderer.toneMappingExposure = 4;
+        renderer.toneMappingExposure = 10;
         container.appendChild(renderer.domElement);
         const renderScene = new RenderPass(scene, camera);
         const bloomPass = new UnrealBloomPass(
@@ -123,7 +125,7 @@
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enablePan = false;
         controls.minDistance = 4;
-        controls.maxDistance = 164;
+        controls.maxDistance = 80;
         controls.target.set(0, 0, 0);
         window.addEventListener("resize", onWindowResize);
       }
