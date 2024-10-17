@@ -92,14 +92,14 @@
         camera.position.set(20, 10, 80);
         scene.add(camera);
         const loader = new GLTFLoader();
-        const gltf = await loader.loadAsync(
-          "assets/background-geometry-world.glb"
-        );
+        const gltf = await loader.loadAsync("assets/Moving-Geometry.glb");
         const model = gltf.scene;
         scene.add(model);
         mixer = new THREE.AnimationMixer(model);
-        const clip = gltf.animations[0];
-        mixer.clipAction(clip.optimize()).play();
+        console.log(gltf.animations);
+        gltf.animations.map((clip) => mixer.clipAction(clip).play());
+
+        // mixer.clipAction(clip.optimize()).play();
         renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight);
